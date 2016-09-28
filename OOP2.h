@@ -1,14 +1,16 @@
-//clang++ -O2 -std=c++14 % -o %:r && ./%:r
-#include <iostream>
+#pragma once
 #include <vector>
 #include <array>
 #include <chrono>
+#include <iostream>
 
 struct OOPBall
 {
 	std::array<float, 3> pos;
+	std::array<float, 8> randomcrap;
 	std::array<float, 4> color;
 	std::array<float, 3> movement;
+	std::array<float, 8> randomcrap2;
 	float radius;
 	void Update()
 	{
@@ -25,11 +27,10 @@ struct OOPBall
 	}
 };
 
-int main()
+void OOP2Test(int nr_of_balls, std::vector<std::array<float, 8>>& rendertarget)
 {
 	std::vector<OOPBall> oopballs;
-	std::vector<std::array<float, 8>> rendertarget;
-	for ( int i = 0; i < 1'000'000; ++i )
+	for ( int i = 0; i < nr_of_balls; ++i )
 	{
 		OOPBall ball;
 		ball.pos = { 0.0f, (float)i, 0.0f };
@@ -48,6 +49,5 @@ int main()
 		ball.Render(rendertarget);
 	}
 	std::chrono::high_resolution_clock::time_point end = std::chrono::high_resolution_clock::now();
-	std::cout << "OOP took " << std::chrono::duration_cast<std::chrono::milliseconds>( end - start ).count() << "ms" << std::endl;
-	return 0;
+	std::cout << "OOP2 took " << std::chrono::duration_cast<std::chrono::milliseconds>( end - start ).count() << "ms" << std::endl;
 }
