@@ -6,19 +6,21 @@
 
 struct DOD1Balls
 {
-	std::vector<std::array<float, 3>> poses;
-	std::vector<std::array<float, 4>> colors;
-	std::vector<std::array<float, 3>> movements;
+	std::vector<vec3> poses;
+	std::vector<vec4> colors;
+	std::vector<float> dmgs;
+	std::vector<vec3> aimdirections;
+	std::vector<vec3> directions;
 	std::vector<float> radiuses;
+	std::vector<float> speeds;
+	std::vector<float> hps;
+	std::vector<vec3> cursorPoses;
+	std::vector<size_t> targetIndexes;
 	void Update()
 	{
 		for (size_t i = 0; i < poses.size(); ++i)
 		{
-			std::array<float, 3>& pos = poses[i];
-			std::array<float, 3>& movement = movements[i];
-			pos[0] += movement[0];
-			pos[1] += movement[1];
-			pos[2] += movement[2];
+			poses[i] += directions[i] * speeds[i];
 		}
 	}
 	void Render(std::vector<std::array<float, 8>>& rendertarget)

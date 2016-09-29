@@ -30,9 +30,9 @@ struct OOP1Ball
 		pos += direction * speed;
 	}
 
-	void Attack(std::vector<OOP1Ball*>& balls)
+	void Attack(std::vector<OOP1Ball*>* balls)
 	{
-		balls.at(targetIndex)->hp -= dmg;
+		balls->at(targetIndex)->hp -= dmg;
 	}
 
 	void Render(std::vector<std::array<float, 8>>& rendertarget)
@@ -65,27 +65,35 @@ void OOP1Test(int nr_of_balls, std::vector<std::array<float, 8>>& rendertarget)
 		}
 		{
 			OOP1Ball* ball = new OOP1Ball();
-
-			ball->pos = { 0.0f, (float)i, 0.0f };
-			ball->movement = { (float)i, 0.0f, 0.0f };
-			ball->color = { 1.0f, 0.0f, 1.0f, 1.0f };
-			ball->radius = 1.0f;
+			ball->pos = glm::normalize(vec3(rf(rnd), rf(rnd), rf(rnd)) * 1000.0f);
+			ball->direction = glm::normalize(vec3(rf(rnd), rf(rnd), rf(rnd)));
+			ball->color = vec4( rf(rnd), rf(rnd), rf(rnd), rf(rnd) );
+			ball->radius = rf(rnd);
+			ball->speed = rf(rnd) * 10.0f;
+			ball->dmg = rf(rnd);
+			ball->hp = rf(rnd) * 10.0f;
 			oopballsNotUsed.push_back(ball);
 		}
 		{
 			OOP1Ball* ball = new OOP1Ball();
-			ball->pos = { 0.0f, (float)i, 0.0f };
-			ball->movement = { (float)i, 0.0f, 0.0f };
-			ball->color = { 1.0f, 0.0f, 1.0f, 1.0f };
-			ball->radius = 1.0f;
+			ball->pos = glm::normalize(vec3(rf(rnd), rf(rnd), rf(rnd)) * 1000.0f);
+			ball->direction = glm::normalize(vec3(rf(rnd), rf(rnd), rf(rnd)));
+			ball->color = vec4( rf(rnd), rf(rnd), rf(rnd), rf(rnd) );
+			ball->radius = rf(rnd);
+			ball->speed = rf(rnd) * 10.0f;
+			ball->dmg = rf(rnd);
+			ball->hp = rf(rnd) * 10.0f;
 			oopballsNotUsed.push_back(ball);
 		}
 		{
 			OOP1Ball* ball = new OOP1Ball();
-			ball->pos = { 0.0f, (float)i, 0.0f };
-			ball->movement = { (float)i, 0.0f, 0.0f };
-			ball->color = { 1.0f, 0.0f, 1.0f, 1.0f };
-			ball->radius = 1.0f;
+			ball->pos = glm::normalize(vec3(rf(rnd), rf(rnd), rf(rnd)) * 1000.0f);
+			ball->direction = glm::normalize(vec3(rf(rnd), rf(rnd), rf(rnd)));
+			ball->color = vec4( rf(rnd), rf(rnd), rf(rnd), rf(rnd) );
+			ball->radius = rf(rnd);
+			ball->speed = rf(rnd) * 10.0f;
+			ball->dmg = rf(rnd);
+			ball->hp = rf(rnd) * 10.0f;
 			oopballsNotUsed.push_back(ball);
 		}
 	}
@@ -93,7 +101,11 @@ void OOP1Test(int nr_of_balls, std::vector<std::array<float, 8>>& rendertarget)
 	std::chrono::high_resolution_clock::time_point start = std::chrono::high_resolution_clock::now();
 	for ( auto& ball : oopballs )
 	{
-		ball->Update();
+		ball->Move();
+	}
+	for ( auto& ball : oopballs )
+	{
+		ball->Attack(&oopballs);
 	}
 	for ( auto& ball : oopballs )
 	{
