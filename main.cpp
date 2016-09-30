@@ -3,6 +3,7 @@
 #include "OOP1.h"
 #include "OOP2.h"
 #include "DOD1.h"
+#include "DOD2.h"
 
 int main()
 {
@@ -19,6 +20,9 @@ int main()
 	{
 		std::vector<std::array<float, 8>> rendertarget(nr_of_balls);
 		DOD1Test(nr_of_balls, rendertarget);
+	}{
+		std::vector<std::array<float, 8>> rendertarget(nr_of_balls);
+		DOD2Test(nr_of_balls, rendertarget);
 	}
 
 	std::cin.get();
