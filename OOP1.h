@@ -48,52 +48,56 @@ void OOP1Test(int nr_of_balls, std::vector<std::array<float, 8>>& rendertarget)
 {
 	std::vector<OOP1Ball*> oopballs;
 	std::vector<OOP1Ball*> oopballsNotUsed;
-	std::mt19937 rnd;
+	std::mt19937 rndnotused(701);
+	std::mt19937 rnd(701);
 	std::uniform_real_distribution<float> rf(0.0f, 1.0f);
 	for (int i = 0; i < nr_of_balls; ++i)
 	{
 		{
 			OOP1Ball* ball = new OOP1Ball();
 			ball->pos = glm::normalize(vec3(rf(rnd), rf(rnd), rf(rnd)) * 1000.0f);
-			ball->direction = glm::normalize(vec3(rf(rnd), rf(rnd), rf(rnd)));
 			ball->color = vec4( rf(rnd), rf(rnd), rf(rnd), rf(rnd) );
+			ball->direction = glm::normalize(vec3(rf(rnd), rf(rnd), rf(rnd)));
+			ball->aimdirection = glm::normalize(vec3(rf(rnd), rf(rnd), rf(rnd)));
+			ball->cursorPos = glm::normalize(vec3(rf(rnd), rf(rnd), rf(rnd)) * 1000.0f);
 			ball->radius = rf(rnd);
 			ball->speed = rf(rnd) * 10.0f;
 			ball->dmg = rf(rnd);
 			ball->hp = rf(rnd) * 10.0f;
+			ball->targetIndex = rnd() % nr_of_balls;
 			oopballs.push_back(ball);
 		}
 		{
 			OOP1Ball* ball = new OOP1Ball();
-			ball->pos = glm::normalize(vec3(rf(rnd), rf(rnd), rf(rnd)) * 1000.0f);
-			ball->direction = glm::normalize(vec3(rf(rnd), rf(rnd), rf(rnd)));
-			ball->color = vec4( rf(rnd), rf(rnd), rf(rnd), rf(rnd) );
-			ball->radius = rf(rnd);
-			ball->speed = rf(rnd) * 10.0f;
-			ball->dmg = rf(rnd);
-			ball->hp = rf(rnd) * 10.0f;
+			ball->pos = glm::normalize(vec3(rf(rndnotused), rf(rndnotused), rf(rndnotused)) * 1000.0f);
+			ball->direction = glm::normalize(vec3(rf(rndnotused), rf(rndnotused), rf(rndnotused)));
+			ball->color = vec4( rf(rndnotused), rf(rndnotused), rf(rndnotused), rf(rndnotused) );
+			ball->radius = rf(rndnotused);
+			ball->speed = rf(rndnotused) * 10.0f;
+			ball->dmg = rf(rndnotused);
+			ball->hp = rf(rndnotused) * 10.0f;
 			oopballsNotUsed.push_back(ball);
 		}
 		{
 			OOP1Ball* ball = new OOP1Ball();
-			ball->pos = glm::normalize(vec3(rf(rnd), rf(rnd), rf(rnd)) * 1000.0f);
-			ball->direction = glm::normalize(vec3(rf(rnd), rf(rnd), rf(rnd)));
-			ball->color = vec4( rf(rnd), rf(rnd), rf(rnd), rf(rnd) );
-			ball->radius = rf(rnd);
-			ball->speed = rf(rnd) * 10.0f;
-			ball->dmg = rf(rnd);
-			ball->hp = rf(rnd) * 10.0f;
+			ball->pos = glm::normalize(vec3(rf(rndnotused), rf(rndnotused), rf(rndnotused)) * 1000.0f);
+			ball->direction = glm::normalize(vec3(rf(rndnotused), rf(rndnotused), rf(rndnotused)));
+			ball->color = vec4( rf(rndnotused), rf(rndnotused), rf(rndnotused), rf(rndnotused) );
+			ball->radius = rf(rndnotused);
+			ball->speed = rf(rndnotused) * 10.0f;
+			ball->dmg = rf(rndnotused);
+			ball->hp = rf(rndnotused) * 10.0f;
 			oopballsNotUsed.push_back(ball);
 		}
 		{
 			OOP1Ball* ball = new OOP1Ball();
-			ball->pos = glm::normalize(vec3(rf(rnd), rf(rnd), rf(rnd)) * 1000.0f);
-			ball->direction = glm::normalize(vec3(rf(rnd), rf(rnd), rf(rnd)));
-			ball->color = vec4( rf(rnd), rf(rnd), rf(rnd), rf(rnd) );
-			ball->radius = rf(rnd);
-			ball->speed = rf(rnd) * 10.0f;
-			ball->dmg = rf(rnd);
-			ball->hp = rf(rnd) * 10.0f;
+			ball->pos = glm::normalize(vec3(rf(rndnotused), rf(rndnotused), rf(rndnotused)) * 1000.0f);
+			ball->direction = glm::normalize(vec3(rf(rndnotused), rf(rndnotused), rf(rndnotused)));
+			ball->color = vec4( rf(rndnotused), rf(rndnotused), rf(rndnotused), rf(rndnotused) );
+			ball->radius = rf(rndnotused);
+			ball->speed = rf(rndnotused) * 10.0f;
+			ball->dmg = rf(rndnotused);
+			ball->hp = rf(rndnotused) * 10.0f;
 			oopballsNotUsed.push_back(ball);
 		}
 	}

@@ -3,46 +3,78 @@
 #include <array>
 #include <chrono>
 #include <iostream>
+#include <random>
+#include "glm/vec3.hpp"
+#include "glm/vec4.hpp"
+#include "glm/gtx/normalize_dot.hpp"
 
-struct OOPBall
+using glm::vec3;
+using glm::vec4;
+
+struct OOP2Ball
 {
-	std::array<float, 3> pos;
-	std::array<float, 8> randomcrap;
-	std::array<float, 4> color;
-	std::array<float, 3> movement;
-	std::array<float, 8> randomcrap2;
+	vec3 pos;
+	vec4 color;
+	float dmg;
+	vec3 aimdirection;
+	vec3 direction;
 	float radius;
-	void Update()
+	float speed;
+	float hp;
+	vec3 cursorPos;
+	size_t targetIndex;
+	
+	void Move()
 	{
-		pos[0] += movement[0];
-		pos[1] += movement[1];
-		pos[2] += movement[2];
+		aimdirection = glm::normalize(pos - cursorPos);
+		pos += direction * speed;
 	}
+
+	void Attack(std::vector<OOP2Ball>* balls)
+	{
+		balls->at(targetIndex).hp -= dmg;
+	}
+
 	void Render(std::vector<std::array<float, 8>>& rendertarget)
 	{
 		rendertarget.push_back( {
-				pos[0], pos[1], pos[2],
-				color[0], color[1], color[2], color[3],
+				pos.x, pos.y, pos.z,
+				color.x, color.y, color.z, color.w,
 				radius } );
 	}
 };
 
 void OOP2Test(int nr_of_balls, std::vector<std::array<float, 8>>& rendertarget)
 {
-	std::vector<OOPBall> oopballs;
-	for ( int i = 0; i < nr_of_balls; ++i )
+	std::vector<OOP2Ball> oopballs;
+	std::mt19937 rnd(701);
+	std::uniform_real_distribution<float> rf(0.0f, 1.0f);
+	for (int i = 0; i < nr_of_balls; ++i)
 	{
-		OOPBall ball;
-		ball.pos = { 0.0f, (float)i, 0.0f };
-		ball.movement = { (float)i, 0.0f, 0.0f };
-		ball.color = { 1.0f, 0.0f, 1.0f, 1.0f };
-		ball.radius = 1.0f;
-		oopballs.push_back( ball );
+		{
+			OOP2Ball ball;
+			ball.pos = glm::normalize(vec3(rf(rnd), rf(rnd), rf(rnd)) * 1000.0f);
+			ball.color = vec4( rf(rnd), rf(rnd), rf(rnd), rf(rnd) );
+			ball.direction = glm::normalize(vec3(rf(rnd), rf(rnd), rf(rnd)));
+			ball.aimdirection = glm::normalize(vec3(rf(rnd), rf(rnd), rf(rnd)));
+			ball.cursorPos = glm::normalize(vec3(rf(rnd), rf(rnd), rf(rnd)) * 1000.0f);
+			ball.radius = rf(rnd);
+			ball.speed = rf(rnd) * 10.0f;
+			ball.dmg = rf(rnd);
+			ball.hp = rf(rnd) * 10.0f;
+			ball.targetIndex = rnd() % nr_of_balls;
+			oopballs.push_back(ball);
+		}
 	}
+
 	std::chrono::high_resolution_clock::time_point start = std::chrono::high_resolution_clock::now();
 	for ( auto& ball : oopballs )
 	{
-		ball.Update();
+		ball.Move();
+	}
+	for ( auto& ball : oopballs )
+	{
+		ball.Attack(&oopballs);
 	}
 	for ( auto& ball : oopballs )
 	{
